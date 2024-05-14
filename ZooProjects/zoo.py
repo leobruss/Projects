@@ -62,8 +62,32 @@ class Zoo:
     def __init__(self, zoo_name: str, zoo_address: str) ->None:
         self.zoo_name = zoo_name
         self.zoo_address = zoo_address
+        self.zoo_keeper_name: str[ZooKeeper] = None
+        self.zoo_keeper_surname: str[ZooKeeper] = None
+        self.id: str[ZooKeeper] = None
+        self.area: float[Fence] = None
+        self.temperature: float[Fence] = None
+        self.habitat: str[Fence] = None
+        self.animal_name: str[Animal] = None
+        self.species: str[Animal] = None
+        self.age: int[Animal] = None
+        self.height: float[Animal] = None
+        self.width: float[Animal] = None
+        self.preferred_habitat: str[Animal] = None
+        self.health: float[Animal] = None
+
         print(f"Welcome to {self.zoo_name} on {self.zoo_address}\n")
-        #print(f"Guardians\n {ZooKeeper[self.zoo_keeper_name]}")
+        
+    def describe_zoo(self):
+
+        '''print(f"Guardians:\n","name=",self.zoo_keeper_name, "surname=",self.zoo_keeper_surname, "id=",self.id)
+        print()
+        print(f"Fenece:\n","fence=",self.area, "temperature=",self.temperature,"°", "habitat=",self.habitat)
+        print() 
+        print(f"with animals:\n","name=",self.animal_name, "species=",self.species, "age=",self.age, "height=",self.height, "width=",\
+              self.width, "preferred habitat=",self.preferred_habitat, "health=",self.health)'''
+        
+       
 
 
 #2. Animal: questa classe rappresenta un animale nello zoo. Ogni animale ha questi attributi: name, species, age, 
@@ -91,6 +115,9 @@ class Fence:
         self.temperature: float = temperature
         self.habitat: str = habitat
         self.animals: list[Animal] = []   
+
+    def add_animal(self, animal: Animal):
+        self.animals.append(animal)
 
     def get_free_area(self):
         fence_occuped_area: int = 0
@@ -120,9 +147,33 @@ class ZooKeeper:
             print("This animal can't live here!")
 
 
+
+ 
 z1: Zoo = Zoo("Zoo", "Via dello Zoo")
+animal1: Animal = Animal("Lion", "mammal", 15, 1.2, 2, "Savannah", 5)
+fence1: Fence = Fence(10, 37, "Savannah")
+fence1.add_animal(animal1)
 print("Zoo name: ", z1.zoo_name)
 print("Zoo Address: ", z1.zoo_address)
+print()
+'''#Zoo Keeper Info
+z1.zoo_keeper_name = "Max"
+z1.zoo_keeper_surname = "Smith"
+z1.id = "246082"
+#Fence Info
+z1.area = 10
+z1.temperature = 37
+z1.habitat = "Savannah"
+#Animals Info
+z1.animal_name = "Lion"
+z1.species = "mammal"
+z1.age = 15 
+z1.height = 1.2
+z1.width = 2
+z1.preferred_habitat = "Savannah"
+z1.health = 5'''
+z1.describe_zoo()
+
 
 
 
