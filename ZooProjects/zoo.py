@@ -59,11 +59,9 @@ Fra un recinto e l'altro mettete 30 volte il carattere #."""
 
 #1. Zoo: questa classe rappresenta uno zoo. Lo zoo ha dei recinti fences e dei guardiani dello zoo, zoo_keepers.
 class Zoo:
-    def __init__(self, zoo_name: str, zoo_address: str, fences: str, zoo_keepers: str) ->None:
+    def __init__(self, zoo_name: str, zoo_address: str) ->None:
         self.zoo_name = zoo_name
         self.zoo_address = zoo_address
-        self.fences = fences
-        self.zoo_keepers = zoo_keepers
         print(f"Welcome to {self.zoo_name} on {self.zoo_address}\n")
         #print(f"Guardians\n {ZooKeeper[self.zoo_keeper_name]}")
 
@@ -115,10 +113,16 @@ class ZooKeeper:
         
         if animal.preferred_habitat == fence.habitat and fence.get_free_area >= animal.get_area:
             fence.animals.append(animal)
+            fence.area = fence.area - fence.get_free_area
         elif animal.preferred_habitat == fence.habitat and fence.get_free_area < animal.get_area:
             print("Sorry, but we have not more space here")
         elif animal.preferred_habitat != fence.habitat:
             print("This animal can't live here!")
+
+
+z1: Zoo = Zoo("Zoo", "Via dello Zoo")
+print("Zoo name: ", z1.zoo_name)
+print("Zoo Address: ", z1.zoo_address)
 
 
 

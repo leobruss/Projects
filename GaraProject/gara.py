@@ -1,10 +1,22 @@
 import random
 print("BANG !!!!! AND THEY'RE OFF !!!!!")
-def position(tartaruga_position: int, lepre_position: int) -> list:
+def position(tartaruga_position: int, lepre_position: int, meteo: str) -> list:
     lenght_list = 70
     competition: list= ["_"] * lenght_list
-
     
+
+    if meteo == "Sole":
+        print("Today there is the sun")
+    elif meteo == "Pioggia":
+        print("Today it's raining")
+        if tartaruga_position > 1:
+            tartaruga_position -= 1
+        else:
+            pass
+        if lepre_position > 2:
+            lepre_position -= 2
+        else: 
+            pass
     if tartaruga_position == lepre_position :
         competition[tartaruga_position] = 'OUCH!!!'
         print("".join(competition))
@@ -68,11 +80,20 @@ def lepre(last_position_h: int) -> int:
 t = 0
 h = 0
 counter = 0
+meteo = "Sole"
 while True:
     t = tartaruga(t)
     h = lepre(h)
     counter += 1
+    if counter % 10 == 0:
+        i = random.randint(1, 2)
+        if i == 1:
+            meteo = "Sole"
+        else:
+            meteo = "Pioggia"
+    
+
     print(counter)
-    (position(t, h))
+    (position(t, h, meteo))
     if t >= 69 or h >= 69:
         break
