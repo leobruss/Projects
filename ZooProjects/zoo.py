@@ -64,16 +64,29 @@ class Zoo:
         self.zoo_address = zoo_address
         self.fences: list[Fence] = []
         self.zoo_keepers: list[ZooKeeper] = []
-
+        
         
         
     def describe_zoo(self):
         for k in self.zoo_keepers:
             print("Guardians:")
-            print(f"ZooKeeper(name={k.zoo_keeper_name}, surname={k.zoo_keeper_surname}, id={k.id})\n")
-            for time in k.fences:
-               time_to_clean = k.clean()
-               print(f"Time to clean {time.habitat} fence: {time_to_clean} hours")
+            print()
+            print(f"ZooKeeper(name={k.zoo_keeper_name}, surname={k.zoo_keeper_surname}, id={k.id})")
+        print()  
+        
+        for time in self.fences:
+            time_to_clean = 0
+            for k in self.zoo_keepers:
+                time_to_clean += k.clean(time)
+                if time_to_clean != 0:
+                    print(f"Time to clean {time.habitat} fence: {time_to_clean:.2f} hours")
+                else:
+                    print(f"Time to clean {time.habitat} fence: {time.area}")
+
+                #se vuole il tempo dell'area occupata cancella if/else
+
+
+        print()
         for f in self.fences:
             print("Fences:")
             print()
@@ -83,10 +96,14 @@ class Zoo:
             print()
             for a in f.animals:
                  print(f"Animal(name={a.animal_name}, species={a.species}, age={a.age})\n")
+            if f.time_to_clean:
+                print(f"Time to clean {f.habitat} fence: {f.time_to_clean[0]} hours")
             print("#" * 30)
-            for t in f.time:
-                print("Time to cloean the fence:")
-                print(f"The time it took to clean was {t.clean}")
+            
+            
+            
+            
+        
 
 
 
@@ -121,10 +138,10 @@ class Fence:
         self.temperature: float = temperature
         self.habitat: str = habitat
         self.animals: list[Animal] = []   
-        self.time: list[ZooKeeper] = []
+        self.time_to_clean: list[ZooKeeper] = []
 
 
-    def get_free_area(self):
+    def get_free_area(self) -> None:
         fence_free_area: int = self.area
         for animal in self.animals:
             fence_free_area -= animal.get_area()
@@ -142,6 +159,7 @@ class ZooKeeper:
         self.id: str = id
         self.fences: list[Fence] = []
         
+               
 
 
     def add_animal(self, animal: Animal, fence: Fence)->None:
@@ -173,12 +191,10 @@ class ZooKeeper:
                 print(f"{animal.animal_name} is not in any of the fences.")
     
     def clean(self, fence: Fence) ->float:
-        for fence in self.fences:
-            if fence.get_free_area() > 0:
-                time_to_clean = (fence.area - fence.get_free_area)/ fence.get_free_area
-                fence.time.append(time_to_clean)
-            else:
-                fence.time.append(fence.get_free_area)
+        if fence.get_free_area() > 0:
+            time_to_clean = (fence.area - fence.get_free_area())/ fence.get_free_area()
+        else:
+            time_to_clean = fence.area
         return time_to_clean
 
 
