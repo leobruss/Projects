@@ -71,6 +71,9 @@ class Zoo:
         for k in self.zoo_keepers:
             print("Guardians:")
             print(f"ZooKeeper(name={k.zoo_keeper_name}, surname={k.zoo_keeper_surname}, id={k.id})\n")
+            for time in k.fences:
+               time_to_clean = k.clean()
+               print(f"Time to clean {time.habitat} fence: {time_to_clean} hours")
         for f in self.fences:
             print("Fences:")
             print()
@@ -81,7 +84,12 @@ class Zoo:
             for a in f.animals:
                  print(f"Animal(name={a.animal_name}, species={a.species}, age={a.age})\n")
             print("#" * 30)
-                
+            for t in f.time:
+                print("Time to cloean the fence:")
+                print(f"The time it took to clean was {t.clean}")
+
+
+
 
         
        
@@ -113,6 +121,7 @@ class Fence:
         self.temperature: float = temperature
         self.habitat: str = habitat
         self.animals: list[Animal] = []   
+        self.time: list[ZooKeeper] = []
 
 
     def get_free_area(self):
@@ -131,6 +140,9 @@ class ZooKeeper:
         self.zoo_keeper_name: str = zoo_keeper_name
         self.zoo_keeper_surname: str = zoo_keeper_surname
         self.id: str = id
+        self.fences: list[Fence] = []
+        
+
 
     def add_animal(self, animal: Animal, fence: Fence)->None:
         
@@ -147,6 +159,31 @@ class ZooKeeper:
           
         else:
             print("Animal not in this fence")
+        
+    def feed(self, animal: Animal) ->None:
+        for fence in self.fences:
+            if animal in fence.animals:
+                if fence.get_free_area() >= animal.get_area() * 2 / 100:
+                    animal.health += animal.health * 1 / 100
+                    animal.get_area += animal.get_area* 2 / 100
+                else:
+                    print(f"Sorry, but we have not more space for the {animal.animal_name} in {fence.habitat}! ")
+                    break
+            else:
+                print(f"{animal.animal_name} is not in any of the fences.")
+    
+    def clean(self, fence: Fence) ->float:
+        for fence in self.fences:
+            if fence.get_free_area() > 0:
+                time_to_clean = (fence.area - fence.get_free_area)/ fence.get_free_area
+                fence.time.append(time_to_clean)
+            else:
+                fence.time.append(fence.get_free_area)
+        return time_to_clean
+
+
+                    
+
         
 
 
@@ -177,6 +214,7 @@ zoo_keeper1.add_animal(animal3, fence1)
 #Rimozione degli animali dal loro rispettivo recinto
 zoo_keeper1.remove_animal(animal2, fence2)
 z1.zoo_keepers.append(zoo_keeper1)
+
 
 
 
