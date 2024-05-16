@@ -73,20 +73,7 @@ class Zoo:
             print()
             print(f"ZooKeeper(name={k.zoo_keeper_name}, surname={k.zoo_keeper_surname}, id={k.id})")
         print()  
-        
-        for time in self.fences:
-            time_to_clean = 0
-            for k in self.zoo_keepers:
-                time_to_clean += k.clean(time)
-                if time_to_clean != 0:
-                    print(f"Time to clean {time.habitat} fence: {time_to_clean:.2f} hours")
-                else:
-                    print(f"Time to clean {time.habitat} fence: {time.area}")
-
-                #se vuole il tempo dell'area occupata cancella if/else
-
-
-        print()
+   
         for f in self.fences:
             print("Fences:")
             print()
@@ -123,6 +110,7 @@ class Animal:
         self.width: float = width
         self.preferred_habitat: str = preferred_habitat
         self.health = round(100 * (1 / age), 3)
+        self.fence = None
 
     def get_area(self):
         animal_area: float = self.width * self.height
@@ -166,6 +154,7 @@ class ZooKeeper:
         
         if animal.preferred_habitat == fence.habitat and fence.get_free_area() >= animal.get_area():
             fence.animals.append(animal)
+            animal.fence = fence
         elif animal.preferred_habitat == fence.habitat and fence.get_free_area() < animal.get_area():
             print(f"Sorry, but we have not more space for the {animal.animal_name} in {fence.habitat}! ")
         elif animal.preferred_habitat != fence.habitat:
@@ -174,19 +163,23 @@ class ZooKeeper:
     def remove_animal(self, animal: Animal, fence: Fence) ->None:
         if animal in fence.animals:
             fence.animals.remove(animal)
-          
+            animal.fence = None
         else:
             print("Animal not in this fence")
         
     def feed(self, animal: Animal) ->None:
-        for fence in self.fences:
-            if animal in fence.animals:
-                if fence.get_free_area() >= animal.get_area() * 2 / 100:
+    
+            if animal.fence is not None:
+                if animal.fence.get_free_area() >= animal.get_area() * 2 / 100:
+                    print("ha magnato")
                     animal.health += animal.health * 1 / 100
-                    animal.get_area += animal.get_area* 2 / 100
+                    to_add: float = animal.get_area()* 2 / 100
+                    animal.width += to_add
+                    animal.height += to_add
+
                 else:
-                    print(f"Sorry, but we have not more space for the {animal.animal_name} in {fence.habitat}! ")
-                    break
+                    print(f"Sorry, but we have not more space for the {animal.animal_name} in {animal.fence.habitat}! ")
+                  
             else:
                 print(f"{animal.animal_name} is not in any of the fences.")
     
@@ -233,9 +226,9 @@ z1.zoo_keepers.append(zoo_keeper1)
 
 
 
-
-
 z1.describe_zoo()
+zoo_keeper1.clean(fence1)
+
 
 
 
