@@ -45,16 +45,23 @@ def position(tartaruga_position: int, lepre_position: int, meteo: str) -> list:
 
 def tartaruga(last_position_t: int) -> int:
     i = random.randint(1, 10)
-    if 1 <= i <= 5:
-        last_position_t += 3
-    elif 6 <= i <= 7:
-        if last_position_t <= 6:
-            last_position_t = 1
-        else: 
-            last_position_t -= 6
-    elif 8 <= i <= 10:
-        last_position_t += 1
-
+    t_stamina = 100
+    if t_stamina >= 10:
+        if 1 <= i <= 5:
+            last_position_t += 3
+            t_stamina -= 5
+        elif 6 <= i <= 7:
+            if last_position_t <= 6:
+                last_position_t = 1
+            else: 
+                last_position_t -= 6
+                t_stamina -= 10
+        elif 8 <= i <= 10:
+            last_position_t += 1
+            t_stamina -= 3
+    else:
+        t_stamina += 5
+    print("stamina tartaruga: ", t_stamina)
     return last_position_t
         
             
@@ -62,19 +69,31 @@ def tartaruga(last_position_t: int) -> int:
 
 def lepre(last_position_h: int) -> int:
     i = random.randint(1, 10)
+    l_stamina = 100
     if  1<= i <= 2:
+        l_stamina += 10
         pass
     elif 3 <= i <= 4:
         last_position_h += 9
+        l_stamina -= 15
     elif i == 5:
-        last_position_h += 1
+        if last_position_h <= 12:
+            last_position_h = 1
+            l_stamina -=20
+        else: 
+            last_position_h -= 12
+            l_stamina -=20
     elif 6 <= i <= 8:
         last_position_h += 1
+        l_stamina -= 5
     elif 9 <= i <= 10:
         if last_position_h <= 2:
             last_position_h = 1
+            l_stamina -= 8
         else: 
             last_position_h -= 2
+            l_stamina -= 8
+    print("stamina lepre: ", l_stamina)
     return last_position_h
 
 t = 0
@@ -93,7 +112,8 @@ while True:
             meteo = "Pioggia"
     
 
-    print(counter)
+    print(counter,"° lancio")
+    
     (position(t, h, meteo))
     if t >= 69 or h >= 69:
         break
