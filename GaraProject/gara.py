@@ -40,12 +40,23 @@ def position(tartaruga_position: int, lepre_position: int, meteo: str) -> list:
         competition[lepre_position] = 'H'
         print("".join(competition))
     
-  
-
+    
 
 def tartaruga(last_position_t: int) -> int:
     i = random.randint(1, 10)
     t_stamina = 100
+    ostacoli: dict = {
+        15 : 3,
+        30 : 5,
+        45 : 7,
+        60 : 9
+    } 
+    bonus: dict ={
+        10 : 3,
+        25 : 5,
+        50 : 10,
+        65 : 3
+    }
     if t_stamina >= 10:
         if 1 <= i <= 5:
             last_position_t += 3
@@ -62,6 +73,24 @@ def tartaruga(last_position_t: int) -> int:
     else:
         t_stamina += 5
     print("stamina tartaruga: ", t_stamina)
+
+    if last_position_t in ostacoli:
+        if last_position_t >= ostacoli[last_position_t]:
+            print(f"Penalità in ostacolo: {last_position_t}")
+            last_position_t -= ostacoli[last_position_t]
+        else:
+            last_position_t = 0
+            print("Penalità, posizione tornata a 0")  
+    if last_position_t in bonus:
+        if last_position_t >= bonus[last_position_t]:
+            print(f"Bonus in ostacolo: {last_position_t}")
+            last_position_t += bonus[last_position_t]
+        elif  last_position_t < last_position_t:
+            last_position_t = 0
+            print("Penalità, posizione tornata a 0")         
+
+
+            
     return last_position_t
         
             
@@ -70,6 +99,12 @@ def tartaruga(last_position_t: int) -> int:
 def lepre(last_position_h: int) -> int:
     i = random.randint(1, 10)
     l_stamina = 100
+    ostacoli: dict = {
+        15 : 3,
+        30 : 5,
+        45 : 7,
+        60 : 9
+    } 
     if  1<= i <= 2:
         l_stamina += 10
         pass
@@ -94,6 +129,15 @@ def lepre(last_position_h: int) -> int:
             last_position_h -= 2
             l_stamina -= 8
     print("stamina lepre: ", l_stamina)
+
+    if last_position_h in ostacoli:
+        if last_position_h >= ostacoli[last_position_h]:
+            print(f"Penalità in ostacolo: {last_position_h}")
+            last_position_h -= ostacoli[last_position_h]
+        else:
+            last_position_h = 0
+            print("Penalità, posizione tornata a 0") 
+
     return last_position_h
 
 t = 0
