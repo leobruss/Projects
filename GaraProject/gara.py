@@ -53,10 +53,12 @@ def tartaruga(last_position_t: int) -> int:
     } 
     bonus: dict ={
         10 : 3,
-        25 : 5,
-        50 : 10,
+        25 : 4,
+        50 : 9,
         65 : 3
     }
+    
+    # Calcolo del movimento della tartaruga e della stamina rimanente
     if t_stamina >= 10:
         if 1 <= i <= 5:
             last_position_t += 3
@@ -72,25 +74,25 @@ def tartaruga(last_position_t: int) -> int:
             t_stamina -= 3
     else:
         t_stamina += 5
+    print()
     print("stamina tartaruga: ", t_stamina)
 
+    #Calcolo della posizione della tartaruga in caso di ostacolo
     if last_position_t in ostacoli:
         if last_position_t >= ostacoli[last_position_t]:
-            print(f"Penalità in ostacolo: {last_position_t}")
+            print(f"T penalità in ostacolo: {last_position_t}")
             last_position_t -= ostacoli[last_position_t]
         else:
             last_position_t = 0
-            print("Penalità, posizione tornata a 0")  
+            print("T penalità, posizione tornata a 0")  
+
+    #Calcolo della posizione della tartaruga in caso di bonus
     if last_position_t in bonus:
         if last_position_t >= bonus[last_position_t]:
-            print(f"Bonus in ostacolo: {last_position_t}")
+            print(f"T bonus in posizione: {last_position_t}")
             last_position_t += bonus[last_position_t]
-        elif  last_position_t < last_position_t:
-            last_position_t = 0
-            print("Penalità, posizione tornata a 0")         
-
-
-            
+        if last_position_t > 70:
+            last_position_t == 70       
     return last_position_t
         
             
@@ -105,6 +107,14 @@ def lepre(last_position_h: int) -> int:
         45 : 7,
         60 : 9
     } 
+    bonus: dict ={
+        10 : 3,
+        25 : 4,
+        50 : 9,
+        65 : 3
+    }
+
+    # Calcolo del movimento della lepre e della stamina rimanente
     if  1<= i <= 2:
         l_stamina += 10
         pass
@@ -130,14 +140,22 @@ def lepre(last_position_h: int) -> int:
             l_stamina -= 8
     print("stamina lepre: ", l_stamina)
 
+    #Calcolo della posizione della lepre in caso di ostacolo
     if last_position_h in ostacoli:
         if last_position_h >= ostacoli[last_position_h]:
-            print(f"Penalità in ostacolo: {last_position_h}")
+            print(f"H penalità in ostacolo: {last_position_h}")
             last_position_h -= ostacoli[last_position_h]
         else:
             last_position_h = 0
-            print("Penalità, posizione tornata a 0") 
+            print("H penalità, posizione tornata a 0") 
 
+    #Calcolo della posizione della lepre in caso di bonus
+    if last_position_h in bonus:
+        if last_position_h >= bonus[last_position_h]:
+            print(f"H bonus in posizione: {last_position_h}")
+            last_position_h += bonus[last_position_h]
+        if last_position_h > 70:
+            last_position_h == 70  
     return last_position_h
 
 t = 0
