@@ -47,7 +47,7 @@ def tartaruga(last_position_t: int) -> int:
     t_stamina = 100
     ostacoli: dict = {
         15 : 3,
-        30 : 5,
+        30 : 4,
         45 : 7,
         60 : 9
     } 
@@ -103,7 +103,7 @@ def lepre(last_position_h: int) -> int:
     l_stamina = 100
     ostacoli: dict = {
         15 : 3,
-        30 : 5,
+        30 : 4,
         45 : 7,
         60 : 9
     } 
@@ -142,9 +142,11 @@ def lepre(last_position_h: int) -> int:
 
     #Calcolo della posizione della lepre in caso di ostacolo
     if last_position_h in ostacoli:
+        print(ostacoli[last_position_h])
         if last_position_h >= ostacoli[last_position_h]:
             print(f"H penalità in ostacolo: {last_position_h}")
             last_position_h -= ostacoli[last_position_h]
+            print(f"H  in ostacolo: {last_position_h}")
         else:
             last_position_h = 0
             print("H penalità, posizione tornata a 0") 
