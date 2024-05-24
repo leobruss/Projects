@@ -71,7 +71,7 @@ class Zoo:
         for k in self.zoo_keepers:
             print("Guardians:")
             print()
-            print(f"ZooKeeper(name={k.zoo_keeper_name}, surname={k.zoo_keeper_surname}, id={k.id})")
+            print(f"ZooKeeper(name={k.name}, surname={k.surname}, id={k.id})")
         print()  
    
         for f in self.fences:
@@ -82,7 +82,7 @@ class Zoo:
             print("Whith animals")
             print()
             for a in f.animals:
-                 print(f"Animal(name={a.animal_name}, species={a.species}, age={a.age})\n")
+                 print(f"Animal(name={a.name}, species={a.species}, age={a.age})\n")
             if f.time_to_clean:
                 print(f"Time to clean {f.habitat} fence: {f.time_to_clean[0]} hours")
             print("#" * 30)
@@ -102,14 +102,14 @@ class Zoo:
 #2. Animal: questa classe rappresenta un animale nello zoo. Ogni animale ha questi attributi: name, species, age, 
 #height, width, preferred_habitat, health che è uguale a round(100 * (1 / age), 3).
 class Animal:
-    def __init__(self, animal_name: str, species: str , age: int, height: float, width: float, preferred_habitat: str) -> None:
-        self.animal_name: str = animal_name
+    def __init__(self, name: str, species: str , age: int, height: float, width: float, preferred_habitat: str) -> None:
+        self.name: str = name
         self.species: str = species
         self.age: int = age
         self.height: float = height
         self.width: float = width
         self.preferred_habitat: str = preferred_habitat
-        self.health = round(100 * (1 / age), 3)
+        self.health = (100 * (1 / age), 3)
         self.fence = None
 
     def get_area(self):
@@ -141,9 +141,9 @@ class Fence:
 #I guardiani dello zoo hanno un name, un surname, e un id. Essi possono nutrire gli animali, pulire i recinti e svolgere 
 #altri compiti nel nostro zoo virtuale.
 class ZooKeeper:
-    def __init__(self, zoo_keeper_name: str, zoo_keeper_surname: str, id: str) -> None:
-        self.zoo_keeper_name: str = zoo_keeper_name
-        self.zoo_keeper_surname: str = zoo_keeper_surname
+    def __init__(self, name: str, surname: str, id: str) -> None:
+        self.name: str = name
+        self.surname: str = surname
         self.id: str = id
         self.fences: list[Fence] = []
         
@@ -156,9 +156,9 @@ class ZooKeeper:
             fence.animals.append(animal)
             animal.fence = fence
         elif animal.preferred_habitat == fence.habitat and fence.get_free_area() < animal.get_area():
-            print(f"Sorry, but we have not more space for the {animal.animal_name} in {fence.habitat}! ")
+            print(f"Sorry, but we have not more space for the {animal.name} in {fence.habitat}! ")
         elif animal.preferred_habitat != fence.habitat:
-            print(f"\'{animal.animal_name}\'This animal can't live in {fence.habitat}!")
+            print(f"\'{animal.name}\'This animal can't live in {fence.habitat}!")
 
     def remove_animal(self, animal: Animal, fence: Fence) ->None:
         if animal in fence.animals:
@@ -175,13 +175,13 @@ class ZooKeeper:
                     animal.health += animal.health * 1 / 100
                     to_add: float = animal.get_area()* 2 / 100
                     animal.width += to_add
-                    animal.height += to_add
+                    animal.height += to_add 
 
                 else:
-                    print(f"Sorry, but we have not more space for the {animal.animal_name} in {animal.fence.habitat}! ")
+                    print(f"Sorry, but we have not more space for the {animal.name} in {animal.fence.habitat}! ")
                   
             else:
-                print(f"{animal.animal_name} is not in any of the fences.")
+                print(f"{animal.name} is not in any of the fences.")
     
     def clean(self, fence: Fence) ->float:
         if fence.get_free_area() > 0:
@@ -197,7 +197,7 @@ class ZooKeeper:
 
 
 
-
+'''
 z1: Zoo = Zoo("Zoo", "Via dello Zoo")
 
 #Liste di animal
@@ -228,7 +228,7 @@ z1.zoo_keepers.append(zoo_keeper1)
 
 z1.describe_zoo()
 zoo_keeper1.clean(fence1)
-
+'''
 
 
 
