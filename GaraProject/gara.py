@@ -42,9 +42,9 @@ def position(tartaruga_position: int, lepre_position: int, meteo: str) -> list:
     
     
 
-def tartaruga(last_position_t: int) -> int:
+def tartaruga(last_position_t: int, stamina_t: int) -> int:
     i = random.randint(1, 10)
-    t_stamina = 100
+    
     ostacoli: dict = {
         15 : 3,
         30 : 4,
@@ -59,23 +59,23 @@ def tartaruga(last_position_t: int) -> int:
     }
     
     # Calcolo del movimento della tartaruga e della stamina rimanente
-    if t_stamina >= 10:
+    if stamina_t >= 10:
         if 1 <= i <= 5:
             last_position_t += 3
-            t_stamina -= 5
+            stamina_t -= 5
         elif 6 <= i <= 7:
             if last_position_t <= 6:
                 last_position_t = 1
             else: 
                 last_position_t -= 6
-                t_stamina -= 10
+                stamina_t -= 10
         elif 8 <= i <= 10:
             last_position_t += 1
-            t_stamina -= 3
+            stamina_t -= 3
     else:
-        t_stamina += 5
+        stamina_t += 5
     print()
-    print("stamina tartaruga: ", t_stamina)
+    print("stamina tartaruga: ", stamina_t)
 
     #Calcolo della posizione della tartaruga in caso di ostacolo
     if last_position_t in ostacoli:
@@ -93,14 +93,14 @@ def tartaruga(last_position_t: int) -> int:
             last_position_t += bonus[last_position_t]
         if last_position_t > 70:
             last_position_t == 70       
-    return last_position_t
+    return last_position_t, stamina_t
         
             
 
 
-def lepre(last_position_h: int) -> int:
+def lepre(last_position_h: int, stamina_h: int) -> int:
     i = random.randint(1, 10)
-    l_stamina = 100
+    
     ostacoli: dict = {
         15 : 3,
         30 : 4,
@@ -116,29 +116,28 @@ def lepre(last_position_h: int) -> int:
 
     # Calcolo del movimento della lepre e della stamina rimanente
     if  1<= i <= 2:
-        l_stamina += 10
-        pass
-    elif 3 <= i <= 4:
+        stamina_h += 10
+    elif 3 <= i <= 4 and stamina_h >= 15:
         last_position_h += 9
-        l_stamina -= 15
-    elif i == 5:
+        stamina_h -= 15
+    elif i == 5 and stamina_h >= 20:
         if last_position_h <= 12:
             last_position_h = 1
-            l_stamina -=20
+            stamina_h -=20
         else: 
             last_position_h -= 12
-            l_stamina -=20
-    elif 6 <= i <= 8:
+            stamina_h -=20
+    elif 6 <= i <= 8 and stamina_h >= 5:
         last_position_h += 1
-        l_stamina -= 5
-    elif 9 <= i <= 10:
+        stamina_h -= 5
+    elif 9 <= i <= 10 and stamina_h >= 8:
         if last_position_h <= 2:
             last_position_h = 1
-            l_stamina -= 8
+            stamina_h -= 8
         else: 
             last_position_h -= 2
-            l_stamina -= 8
-    print("stamina lepre: ", l_stamina)
+            stamina_h -= 8
+    print("stamina lepre: ", stamina_h)
 
     #Calcolo della posizione della lepre in caso di ostacolo
     if last_position_h in ostacoli:
@@ -158,15 +157,17 @@ def lepre(last_position_h: int) -> int:
             last_position_h += bonus[last_position_h]
         if last_position_h > 70:
             last_position_h == 70  
-    return last_position_h
+    return last_position_h, stamina_h
 
 t = 0
 h = 0
+stamina_t = 100
+stamina_h = 100
 counter = 0
 meteo = "Sole"
 while True:
-    t = tartaruga(t)
-    h = lepre(h)
+    t, stamina_t = tartaruga(t, stamina_t)
+    h, stamina_h = lepre(h, stamina_h)
     counter += 1
     if counter % 10 == 0:
         i = random.randint(1, 2)
@@ -179,5 +180,7 @@ while True:
     print(counter,"° lancio")
     
     (position(t, h, meteo))
-    if t >= 69 or h >= 69:
+    if t >= 70 or h >= 70:
         break
+
+
